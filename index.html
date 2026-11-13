@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apartmanım · Yönetim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="uygulama">
+    <aside class="yan" id="yan">
+      <div class="marka">
+        <span class="logo">🏢</span>
+        <div>
+          <strong id="markaAd">Apartmanım</strong>
+          <small id="markaAdres">Yönetim paneli</small>
+        </div>
+      </div>
+      <nav id="menu">
+        <a data-sayfa="panel" href="#panel"><span>📊</span>Özet</a>
+        <a data-sayfa="daireler" href="#daireler"><span>🚪</span>Daireler</a>
+        <a data-sayfa="aidat" href="#aidat"><span>💳</span>Aidat</a>
+        <a data-sayfa="kasa" href="#kasa"><span>💰</span>Kasa</a>
+        <a data-sayfa="duyurular" href="#duyurular"><span>📢</span>Duyurular</a>
+        <a data-sayfa="arizalar" href="#arizalar"><span>🔧</span>Arıza / Talep</a>
+        <a data-sayfa="raporlar" href="#raporlar"><span>📄</span>Raporlar</a>
+        <a data-sayfa="ayarlar" href="#ayarlar"><span>⚙️</span>Ayarlar</a>
+      </nav>
+      <div class="yan-alt">Veriler SQLite veritabanında.<br>Her açılışta otomatik yedek.</div>
+    </aside>
+
+    <main>
+      <header class="ust">
+        <button class="menu-dugme" id="menuDugme" aria-label="Menü">☰</button>
+        <h1 id="baslik">Özet</h1>
+        <div class="ust-sag" id="ustSag"></div>
+      </header>
+      <section id="icerik"></section>
+    </main>
+  </div>
+
+  <dialog id="pencere">
+    <form method="dialog" id="pencereForm">
+      <h2 id="pencereBaslik"></h2>
+      <div id="pencereGovde"></div>
+      <div class="pencere-alt">
+        <button type="button" class="dugme ikincil" id="pencereIptal">Vazgeç</button>
+        <button type="submit" class="dugme" id="pencereTamam">Kaydet</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="bildirim" class="bildirim"></div>
+
+  <script src="js/veri.js"></script>
+  <script src="js/arayuz.js"></script>
+  <script src="js/sayfalar.js"></script>
+  <script src="js/uygulama.js"></script>
+</body>
+</html>
