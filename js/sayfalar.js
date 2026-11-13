@@ -641,7 +641,8 @@ function sayfaAyarlar() {
       <p class="soluk" id="dbYolu">Veriler bu bilgisayardaki SQLite veritabanında tutulur.</p>
       <p>Sunucu her açılışta veritabanının günlük kopyasını <code>veri/yedekler/</code> klasörüne alır (son 14 gün). İstersen elle de yedek alabilirsin:</p>
       <p style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="dugme" onclick="yedekIndir()">Yedeği indir (.json)</button>
+        <button class="dugme" onclick="klasoruAc()">📂 Veritabanı klasörünü aç</button>
+        <button class="dugme ikincil" onclick="yedekIndir()">Yedeği indir (.json)</button>
         <label class="dugme ikincil" style="display:inline-block">Yedekten geri yükle<input type="file" accept=".json,application/json" hidden onchange="yedekYukle(this.files[0]); this.value=''"></label>
       </p>
       <hr style="border:0;border-top:1px solid var(--cizgi);margin:18px 0">
@@ -660,6 +661,10 @@ function sayfaAyarlar() {
     for (const [k, v] of f) s[k] = ['varsayilanAidat', 'aidatGunu', 'acilisBakiyesi'].includes(k) ? Number(v) || 0 : String(v).trim();
     yap(async () => { await Veri.ayarlariKaydet(s); temaUygula(); markaGuncelle(); }, 'Ayarlar kaydedildi');
   });
+}
+async function klasoruAc() {
+  try { await api('klasoru-ac', 'POST'); bildir('Klasör Finder’da açıldı'); }
+  catch (e) { bildir('Açılamadı: ' + e.message); }
 }
 async function yedekIndir() {
   try {

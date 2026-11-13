@@ -8,6 +8,7 @@ import json
 import os
 import shutil
 import sqlite3
+import subprocess
 import sys
 import threading
 import webbrowser
@@ -243,6 +244,15 @@ class Isleyici(SimpleHTTPRequestHandler):
                     return self.json_gonder(tum_veri(db))
             if yontem == "GET" and p == ["saglik"]:
                 return self.json_gonder({"ok": True, "db": str(DB_YOLU)})
+            if yontem == "POST" and p == ["klasoru-ac"]:
+                # Veritabanı klasörünü Finder / Gezgin'de açar, dosyayı seçili gösterir.
+                if sys.platform == "darwin":
+                    subprocess.Popen(["open", "-R", str(DB_YOLU)])
+                elif os.name == "nt":
+                    subprocess.Popen(["explorer", "/select,", str(DB_YOLU)])
+                else:
+                    subprocess.Popen(["xdg-open", str(VERI_KLASORU)])
+                return self.json_gonder({"ok": True})
 
             govde = self.govde_oku() if yontem in ("POST", "PUT") else None
             with YAZMA_KILIDI, baglan() as db:
