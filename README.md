@@ -1,36 +1,38 @@
-# Apartmanım — apartman yönetim sistemi
+**English** · [Türkçe](README.tr.md)
 
-Aidat, kasa, duyuru ve arıza takibi için kendi bilgisayarında çalışan yönetim paneli.
-Veriler kendi **SQLite veritabanında** (`veri/apartman.db`) durur; her açılışta kaldığın yerden devam eder.
+# Apartmanım — apartment management system
 
-## Çalıştırma
-- **Çift tıkla:** `Apartmanım.command` → sunucu başlar, tarayıcı açılır (http://127.0.0.1:8771).
-- Ya da terminalde: `python3 sunucu.py`
-- Kapatmak: açılan Terminal penceresini kapat (ya da Ctrl+C).
+A management panel that runs on your own computer for tracking dues, the building's cash box, announcements and maintenance requests.
+All data lives in its own **SQLite database** (`veri/apartman.db`), so every time you open it you continue where you left off.
 
-Ek kurulum yok; yalnız Python 3 (Mac'te hazır gelir).
+## Running it
+- **Double-click:** `Apartmanım.command` → the server starts and the browser opens (http://127.0.0.1:8771).
+- Or from the terminal: `python3 sunucu.py`
+- To stop: close the Terminal window that opened (or press Ctrl+C).
 
-## Neler var
-- **Özet:** kasa bakiyesi, bu ayın tahsil oranı, geciken alacak, açık arızalar, aylık gelir-gider grafiği, gider dağılımı.
-- **Daireler:** blok/no/kat, malik, kiracı, telefon, m², kişi sayısı, daireye özel aidat; toplu daire oluşturma; daire hesap ekstresi (yazdırılabilir).
-- **Aidat:** 12 aylık tablo (ödendi / kısmi / ödenmedi), tek tıkla ödeme alma, toplu aidat borçlandırma (daireye göre, sabit, m² ya da kişi başı; birden çok ay), ek ödenek (eşit, toplamı eşit böl, m²'ye göre böl). Ödemeler en eski borçtan başlayarak kapanır.
-- **Kasa:** gelir ve gider kayıtları, kategori/ay filtresi, CSV indirme.
-- **Duyurular:** sabitleme, WhatsApp'ta paylaşma, kopyalama.
-- **Arıza / Talep:** öncelik, durum, maliyet; maliyeti tek işaretle kasaya gider olarak işleme.
-- **Raporlar:** borçlu daireler (WhatsApp ile hatırlatma bağlantısı), yıllık gelir-gider raporu, yazdırma.
-- **Ayarlar:** apartman bilgileri, IBAN, varsayılan aidat, son ödeme günü, kasa açılış bakiyesi, açık/koyu tema; yedek indir/geri yükle; örnek veri; tümünü sil.
+Nothing else to install; only Python 3 (pre-installed on macOS).
 
-## Veritabanı
-- Dosya: `veri/apartman.db` (git'e girmez).
-- Tablolar: `daireler`, `hareketler` (tahakkuk / tahsilat / gider / gelir), `duyurular`, `arizalar`, `ayarlar`.
-- Daire silinirse borç ve ödeme kayıtları da silinir (`ON DELETE CASCADE`); arızalar "ortak alan"a düşer.
-- **Otomatik yedek:** sunucu her açılışta günün kopyasını `veri/yedekler/apartman-YYYY-AA-GG.db` olarak alır, son 14 günü saklar.
-- Sunucu yalnız bu bilgisayardan (127.0.0.1) erişilebilir; veritabanı dosyası tarayıcıya verilmez.
+## Features
+- **Overview:** cash balance, this month's collection rate, overdue receivables, open maintenance requests, monthly income/expense chart, expense breakdown.
+- **Flats:** block/number/floor, owner, tenant, phone, m², number of residents, flat-specific dues; bulk flat creation; printable flat account statement.
+- **Dues:** 12-month table (paid / partial / unpaid), one-click payment, bulk dues charging (per flat, fixed, by m² or per person; multiple months at once), extra assessments (equal, split a total equally, split by m²). Payments are applied to the oldest debt first.
+- **Cash box:** income and expense records, category/month filter, CSV export.
+- **Announcements:** pinning, sharing on WhatsApp, copying.
+- **Maintenance / Requests:** priority, status, cost; post the cost to the cash box as an expense with one click.
+- **Reports:** flats in debt (with a WhatsApp reminder link), yearly income/expense report, printing.
+- **Settings:** building info, IBAN, default dues, payment due day, opening cash balance, light/dark theme; download/restore backup; sample data; delete everything.
 
-## Dosyalar
-- `sunucu.py` — HTTP sunucusu + JSON API + SQLite şeması
+## Database
+- File: `veri/apartman.db` (not committed to git).
+- Tables: `daireler` (flats), `hareketler` (charges / payments / expenses / income), `duyurular` (announcements), `arizalar` (maintenance), `ayarlar` (settings).
+- Deleting a flat also deletes its charges and payments (`ON DELETE CASCADE`); its maintenance requests move to "common area".
+- **Automatic backup:** each time the server starts it saves a copy of the day as `veri/yedekler/apartman-YYYY-MM-DD.db` and keeps the last 14 days.
+- The server is reachable only from this computer (127.0.0.1); the database file is never served to the browser.
+
+## Files
+- `sunucu.py` — HTTP server + JSON API + SQLite schema
 - `index.html`, `style.css`
-- `js/veri.js` — API istemcisi ve hesaplar (bakiye, dağıtım, kasa)
-- `js/arayuz.js` — form penceresi, bildirim, CSV
-- `js/sayfalar.js` — sayfalar
-- `js/uygulama.js` — başlangıç ve yönlendirme
+- `js/veri.js` — API client and calculations (balance, splitting, cash box)
+- `js/arayuz.js` — form dialog, notifications, CSV
+- `js/sayfalar.js` — pages
+- `js/uygulama.js` — startup and routing
